@@ -31,6 +31,10 @@ func (u *User) GetUserByUsername(username string) error {
 	return global.DBEngine.Where("username = ?", username).First(&u).Error
 }
 
+func (u *User) GetUserByID(id uint) error {
+	return global.DBEngine.First(&u, id).Error
+}
+
 // SetPassword 设置密码
 func (user *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
