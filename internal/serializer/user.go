@@ -3,7 +3,7 @@ package serializer
 import "electronic-album/internal/model"
 
 type User struct {
-	ID       uint   `json:"uid"`
+	ID       uint   `json:"id"`
 	Username string `json:"username"`
 	Sex      string `json:"sex"`
 	Age      uint   `json:"age"`

@@ -7,6 +7,7 @@ import (
 	"fmt"
 )
 
+// UserRegisterRequest 注册表单结构体
 type UserRegisterRequest struct {
 	Username        string `form:"username" json:"username" binding:"required,min=1,max=12"`
 	Password        string `form:"password" json:"password" binding:"required,min=6,max=30"`
@@ -15,6 +16,7 @@ type UserRegisterRequest struct {
 	Age             uint   `form:"age" json:"age"`
 }
 
+// Valid 表单验证
 func (rr *UserRegisterRequest) Valid() *serializer.Response {
 	if rr.Password != rr.PasswordConfirm {
 		return &serializer.Response{
@@ -72,6 +74,7 @@ func (svc *Service) Register(param *UserRegisterRequest) serializer.Response {
 	}
 }
 
+// UserLoginRequest 登录
 type UserLoginRequest struct {
 	Username string `form:"username" json:"username" binding:"required,min=1,max=12"`
 	Password string `form:"password" json:"password" binding:"required,min=6,max=30"`

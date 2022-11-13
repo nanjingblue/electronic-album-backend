@@ -31,22 +31,38 @@ func (u *User) GetUserByUsername(username string) error {
 	return global.DBEngine.Where("username = ?", username).First(&u).Error
 }
 
+// GetUserByID 通过 id 获取 user
 func (u *User) GetUserByID(id uint) error {
 	return global.DBEngine.First(&u, id).Error
 }
 
+// CreateUser 创建新用户
+func (u *User) CreateUser() error {
+	return global.DBEngine.Create(&u).Error
+}
+
+// UpdateUser 更新用户
+func (u *User) UpdateUser() error {
+	return global.DBEngine.Update(&u).Error
+}
+
+// DeleteUser 删除用户
+func (u *User) DeleteUser() error {
+	return global.DBEngine.Delete(&u).Error
+}
+
 // SetPassword 设置密码
-func (user *User) SetPassword(password string) error {
+func (u *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
 	if err != nil {
 		return err
 	}
-	user.PasswordDigest = string(bytes)
+	u.PasswordDigest = string(bytes)
 	return nil
 }
 
 // CheckPassword 校验密码
-func (user *User) CheckPassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(user.PasswordDigest), []byte(password))
+func (u *User) CheckPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.PasswordDigest), []byte(password))
 	return err == nil
 }
