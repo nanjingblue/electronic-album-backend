@@ -13,6 +13,7 @@ func NewRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	{
 		apiv1.GET("/ping", v1.Ping)
+		apiv1.POST("/register", v1.Register)
 	}
 	return r
 }
