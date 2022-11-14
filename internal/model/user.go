@@ -24,6 +24,7 @@ type User struct {
 	Status         string `gorm:"default:'active';not null"`
 	Sex            string
 	Age            uint
+	Avatar         string
 }
 
 // GetUserByUsername 根据 username 查找用户

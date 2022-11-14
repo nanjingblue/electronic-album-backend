@@ -9,7 +9,7 @@ import (
 AlbumCreateService 创建相册
 */
 func AlbumCreateService(ctx *gin.Context) {
-	param := service.AlbumCreateRequest{}
+	param := service.AlbumCreateService{}
 	svc := service.New(ctx)
 	if err := ctx.ShouldBind(&param); err == nil {
 		res := svc.AlbumCreate(&param)

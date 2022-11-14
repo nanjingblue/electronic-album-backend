@@ -23,3 +23,19 @@ func BuildAlbum(it model.Album, username string) Album {
 		UpdatedAt: it.UpdatedAt.Unix(),
 	}
 }
+
+func BuildAlbums(it []model.Album, username string) []Album {
+	var albums []Album
+	for _, a := range it {
+		temp := Album{
+			ID:        a.ID,
+			UserID:    a.UserID,
+			UserName:  username,
+			AlbumName: a.AlbumName,
+			CreatedAt: a.CreatedAt.Unix(),
+			UpdatedAt: a.UpdatedAt.Unix(),
+		}
+		albums = append(albums, temp)
+	}
+	return albums
+}

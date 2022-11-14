@@ -5,6 +5,8 @@ import (
 	"electronic-album/internal/model"
 	"electronic-album/internal/serializer"
 	"fmt"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
 )
 
 // UserRegisterRequest 注册表单结构体
@@ -80,6 +82,13 @@ type UserLoginRequest struct {
 	Password string `form:"password" json:"password" binding:"required,min=6,max=30"`
 }
 
+func (ulr *UserLoginRequest) setSession(c *gin.Context, user *model.User) {
+	s := sessions.Default(c)
+	s.Clear()
+	s.Set("user_id", user.ID)
+	s.Save()
+}
+
 func (svc *Service) Login(param *UserLoginRequest) serializer.Response {
 	var user model.User
 
@@ -99,8 +108,8 @@ func (svc *Service) Login(param *UserLoginRequest) serializer.Response {
 		}
 	}
 
-	// 将用户id保存在上下文
-	svc.ctx.Set("user_id", user.ID)
+	// // 设置session
+	param.setSession(svc.ctx, &user)
 
 	return serializer.Response{
 		Code: 200,
