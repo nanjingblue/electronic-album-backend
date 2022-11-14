@@ -1,31 +1,44 @@
 package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"electronic-album/internal/service"
+	"github.com/gin-gonic/gin"
+)
 
 /*
 AlbumCreateService 创建相册
 */
 func AlbumCreateService(ctx *gin.Context) {
+	param := service.AlbumCreateRequest{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&param); err == nil {
+		res := svc.AlbumCreate(&param)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "创建相册失败",
+			"error": err.Error(),
+		})
+	}
+}
+
+/*
+AlbumGetListService 获取当前用户的所有相册
+*/
+func AlbumGetListService(ctx *gin.Context) {
 
 }
 
 /*
-GetAlbumListService 获取当前用户的所有相册
+AlbumUpdateService 更新相册服务
 */
-func GetAlbumListService(ctx *gin.Context) {
+func AlbumUpdateService(ctx *gin.Context) {
 
 }
 
 /*
-UpdateAlbumService 更新相册服务
+AlbumDeleteService 删除相册服务
 */
-func UpdateAlbumService(ctx *gin.Context) {
-
-}
-
-/*
-DeleteAlbumService 删除相册服务
-*/
-func DeleteAlbumService(ctx *gin.Context) {
+func AlbumDeleteService(ctx *gin.Context) {
 
 }

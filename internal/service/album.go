@@ -1,6 +1,7 @@
 package service
 
 import (
+	"electronic-album/internal/model"
 	"electronic-album/internal/serializer"
 	"fmt"
 )
@@ -27,7 +28,7 @@ func (svc *Service) AlbumCreate(param *AlbumCreateRequest) serializer.Response {
 		return serializer.Response{
 			Code:  500,
 			Msg:   "创建失败",
-			Error: fmt.Errorf("服务器内部错误").Error(),
+			Error: fmt.Errorf("当前无登录用户").Error(),
 		}
 	}
 	if err := param.Valid(userID.(uint)); err != nil {
@@ -36,9 +37,34 @@ func (svc *Service) AlbumCreate(param *AlbumCreateRequest) serializer.Response {
 	/**
 	TODO 验证完 下面是数据库操作 直接调用实体类方法
 	*/
+	var user model.User
+	err := user.GetUserByID(userID.(uint))
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "创建相册失败",
+			Error: err.Error(),
+		}
+	}
 
+	album := model.Album{
+		AlbumName: param.AlbumName,
+		UserID:    userID.(uint),
+	}
+	// 调用 album 的 create
+	err = album.CreateAlbum()
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "创建相册失败",
+			Error: err.Error(),
+		}
+	}
+
+	// 成功
 	return serializer.Response{
 		Code: 200,
 		Msg:  "创建相册成功",
+		Data: serializer.BuildAlbum,
 	}
 }

@@ -19,9 +19,11 @@ func NewRouter() *gin.Engine {
 		apiv1.POST("/login", v1.UserLogin)
 
 		auth := apiv1.Group("")
-		auth.Use(middleware.AuthRequired())
+		auth.Use(middleware.AuthRequired()) // 使用中间件 必须是登录状态才能使用以下接口
 		{
-			auth.GET("/user", v1.UserInfo)
+			auth.GET("/user/:username", v1.UserInfo)   // 获取用户详情
+			auth.POST("/album", v1.AlbumCreateService) // 创建相册
+			auth.GET("/albums", v1.AlbumGetListService)
 		}
 	}
 	return r
