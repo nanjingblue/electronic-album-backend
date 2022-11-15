@@ -16,6 +16,5 @@ func BuildUser(it model.User) User {
 		Username: it.Username,
 		Sex:      it.Sex,
 		Age:      it.Age,
-		Status:   it.Status,
 	}
 }

@@ -10,6 +10,8 @@ type Album struct {
 	AlbumName string `gorm:"not null"`
 	UserID    uint   `gorm:"not null"`
 	User      User
+	Image     string
+	Status    int
 }
 
 // GetAllAlbumByUserID 根据 user_id 获取所有的 album

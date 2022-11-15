@@ -12,6 +12,7 @@ func NewRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	r.Use(middleware.Session("hello-world"))
 	r.Use(middleware.CurrentUser())
+	r.Use(middleware.Cors())
 
 	apiv1 := r.Group("/api/v1")
 	{
@@ -22,9 +23,10 @@ func NewRouter() *gin.Engine {
 		auth := apiv1.Group("")
 		auth.Use(middleware.AuthRequired()) // 使用中间件 必须是登录状态才能使用以下接口
 		{
-			auth.GET("/user/:username", v1.UserInfo)             // 获取用户详情
-			auth.POST("/album", v1.AlbumCreateService)           // 创建相册
-			auth.GET("/albums/:user_id", v1.AlbumGetListService) // 获取相册列表
+			auth.GET("/user/:username", v1.UserInfo) // 获取用户详情
+			auth.GET("/user/logout", v1.UserLogout)
+			auth.POST("/album", v1.AlbumCreateService)  // 创建相册
+			auth.GET("/albums", v1.AlbumGetListService) // 获取相册列表
 		}
 	}
 	return r

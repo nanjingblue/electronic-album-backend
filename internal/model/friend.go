@@ -16,10 +16,9 @@ const (
 
 type Friend struct {
 	gorm.Model
-	UserID       uint `gorm:"not null"`
-	User         User
-	FriendID     uint   `gorm:"not null"`
-	Relationship string `gorm:"default:'unfollow';not null;one of:'unfollow follow ban'"`
+	UserID   uint `gorm:"not null"`
+	User     User
+	FriendID uint `gorm:"not null"`
 }
 
 // GetALLFriendsByUserID 通过 userID 获取好友列表

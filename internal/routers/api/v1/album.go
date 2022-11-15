@@ -26,7 +26,17 @@ func AlbumCreateService(ctx *gin.Context) {
 AlbumGetListService 获取当前用户的所有相册
 */
 func AlbumGetListService(ctx *gin.Context) {
-
+	param := service.AlbumListGetService{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&param); err == nil {
+		res := svc.AlbumListGetService(ctx.Query("user_id"))
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "获取相册列表失败",
+			"error": err.Error(),
+		})
+	}
 }
 
 /*

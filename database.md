@@ -86,7 +86,7 @@ CREATE TABLE `post` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`) REFERENCES user(`id`),
   KEY `idx_post_deleted_at` (`deleted_at`)
-)
+);
 ```
 ### comment (评论表)
 ```sql
@@ -101,5 +101,5 @@ CREATE TABLE `comment` (
   FOREIGN KEY (`post_id`) REFERENCES post(`id`),
   FOREIGN KEY (`user_id`) REFERENCES user(`id`),
   KEY `idx_comment_deleted_at` (`deleted_at`)
-)
+);
 ```
