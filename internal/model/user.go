@@ -20,11 +20,13 @@ const (
 type User struct {
 	gorm.Model
 	Username       string `gorm:"unique;not null"`
+	Nickname       string `gorm:"default:'奥特曼'"`
 	PasswordDigest string `gorm:"not null"`
 	Status         string `gorm:"default:'active';not null"`
 	Sex            string
 	Age            uint
 	Avatar         string
+	Description    string
 }
 
 // GetUserByUsername 根据 username 查找用户

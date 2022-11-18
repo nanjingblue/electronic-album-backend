@@ -6,13 +6,13 @@ import (
 )
 
 /*
-AlbumCreateService 创建相册
+GalleryCreateService 创建相册
 */
-func AlbumCreateService(ctx *gin.Context) {
-	param := service.AlbumCreateService{}
+func GalleryCreateService(ctx *gin.Context) {
+	param := service.GalleryCreateService{}
 	svc := service.New(ctx)
 	if err := ctx.ShouldBind(&param); err == nil {
-		res := svc.AlbumCreate(&param)
+		res := svc.GalleryCreate(&param)
 		ctx.JSON(200, res)
 	} else {
 		ctx.JSON(400, gin.H{
@@ -23,13 +23,13 @@ func AlbumCreateService(ctx *gin.Context) {
 }
 
 /*
-AlbumGetListService 获取当前用户的所有相册
+GalleryGetListService 获取当前用户的所有相册
 */
-func AlbumGetListService(ctx *gin.Context) {
-	param := service.AlbumListGetService{}
+func GalleryGetListService(ctx *gin.Context) {
+	param := service.GalleryListGetService{}
 	svc := service.New(ctx)
 	if err := ctx.ShouldBind(&param); err == nil {
-		res := svc.AlbumListGetService(ctx.Query("user_id"))
+		res := svc.GalleryListGetService()
 		ctx.JSON(200, res)
 	} else {
 		ctx.JSON(400, gin.H{
@@ -40,15 +40,15 @@ func AlbumGetListService(ctx *gin.Context) {
 }
 
 /*
-AlbumUpdateService 更新相册服务
+GalleryUpdateService 更新相册服务
 */
-func AlbumUpdateService(ctx *gin.Context) {
+func GalleryUpdateService(ctx *gin.Context) {
 
 }
 
 /*
-AlbumDeleteService 删除相册服务
+GalleryDeleteService 删除相册服务
 */
-func AlbumDeleteService(ctx *gin.Context) {
+func GalleryDeleteService(ctx *gin.Context) {
 
 }

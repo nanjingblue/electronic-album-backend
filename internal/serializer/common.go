@@ -5,6 +5,7 @@ type Response struct {
 	Data  interface{} `json:"data,omitempty"`
 	Msg   string      `json:"msg"`
 	Error string      `json:"error,omitempty"`
+	Token string      `json:"jwt"`
 }
 
 // 三位数错误编码为复用http原本含义

@@ -1,9 +1,10 @@
 package service
 
 import (
-	"electronic-album/global"
+	"electronic-album/internal/dao"
 	"electronic-album/internal/model"
 	"electronic-album/internal/serializer"
+	"electronic-album/pkg/app"
 	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -11,22 +12,13 @@ import (
 
 // UserRegisterRequest 注册表单结构体
 type UserRegisterRequest struct {
-	Username        string `form:"username" json:"username" binding:"required,min=1,max=12"`
-	Password        string `form:"password" json:"password" binding:"required,min=6,max=30"`
-	PasswordConfirm string `form:"confirm" json:"confirm" binding:"required,min=6,max=30"`
-	Sex             string `form:"sex" json:"sex"`
-	Age             uint   `form:"age" json:"age"`
+	Username string `form:"username" json:"username" binding:"required,min=1,max=12"`
+	Nickname string `form:"nickname" json:"nickname" binding:"required,min=1,max=12"`
+	Password string `form:"password" json:"password" binding:"required,min=6,max=30"`
 }
 
 // Valid 表单验证
 func (rr *UserRegisterRequest) Valid() *serializer.Response {
-	if rr.Password != rr.PasswordConfirm {
-		return &serializer.Response{
-			Code:  400,
-			Msg:   "注册失败",
-			Error: fmt.Errorf("两次密码不一致").Error(),
-		}
-	}
 	var u model.User
 	err := u.GetUserByUsername(rr.Username)
 	if err == nil {
@@ -47,9 +39,8 @@ func (svc *Service) Register(param *UserRegisterRequest) serializer.Response {
 
 	user := model.User{
 		Username: param.Username,
+		Nickname: param.Nickname,
 		Status:   model.Active,
-		Sex:      param.Sex,
-		Age:      param.Age,
 	}
 
 	// 加密密码
@@ -61,7 +52,7 @@ func (svc *Service) Register(param *UserRegisterRequest) serializer.Response {
 		}
 	}
 	// 创建用户
-	if err := global.DBEngine.Create(&user).Error; err != nil {
+	if err := dao.User.CreateUser(&user); err != nil {
 		return serializer.Response{
 			Code:  500,
 			Msg:   "注册失败",
@@ -69,10 +60,22 @@ func (svc *Service) Register(param *UserRegisterRequest) serializer.Response {
 		}
 	}
 
+	// 发放token
+	token, err := app.ReleaseToken(user)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Data:  nil,
+			Msg:   "登录失败",
+			Error: err.Error(),
+		}
+	}
+
 	return serializer.Response{
-		Code: 200,
-		Msg:  "注册成功",
-		Data: serializer.BuildUser(user),
+		Code:  200,
+		Msg:   "注册成功",
+		Data:  serializer.BuildUser(user),
+		Token: token,
 	}
 }
 
@@ -92,7 +95,8 @@ func (ulr *UserLoginRequest) setSession(c *gin.Context, user *model.User) {
 func (svc *Service) Login(param *UserLoginRequest) serializer.Response {
 	var user model.User
 
-	if err := global.DBEngine.Where("username = ?", param.Username).First(&user).Error; err != nil {
+	user, err := dao.User.GetUserByUsername(param.Username)
+	if err != nil {
 		return serializer.Response{
 			Code:  400,
 			Msg:   "登录失败",
@@ -108,12 +112,21 @@ func (svc *Service) Login(param *UserLoginRequest) serializer.Response {
 		}
 	}
 
-	// // 设置session
-	param.setSession(svc.ctx, &user)
+	// 发放token
+	token, err := app.ReleaseToken(user)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Data:  nil,
+			Msg:   "生成token失败",
+			Error: err.Error(),
+		}
+	}
 
 	return serializer.Response{
-		Code: 200,
-		Msg:  "登录成功",
-		Data: serializer.BuildUser(user),
+		Code:  200,
+		Msg:   "登录成功",
+		Data:  serializer.BuildUser(user),
+		Token: token,
 	}
 }

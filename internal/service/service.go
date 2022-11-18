@@ -16,6 +16,6 @@ type Service struct {
 func New(ctx *gin.Context) Service {
 	svc := Service{ctx: ctx}
 	svc.db = global.DBEngine
-	svc.session = sessions.Default(ctx)
+	//svc.session = sessions.Default(ctx)
 	return svc
 }

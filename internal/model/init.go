@@ -38,10 +38,10 @@ func SetupDBEngine() error {
 		return err
 	}
 	_ = global.DBEngine.AutoMigrate(&User{}) // 自动化更新
-	_ = global.DBEngine.AutoMigrate(&Album{})
-	_ = global.DBEngine.AutoMigrate(&Picture{})
-	_ = global.DBEngine.AutoMigrate(&Friend{})
-	_ = global.DBEngine.AutoMigrate(&Post{})
-	_ = global.DBEngine.AutoMigrate(&comment{})
+	_ = global.DBEngine.AutoMigrate(&Gallery{})
+	//_ = global.DBEngine.AutoMigrate(&Picture{})
+	//_ = global.DBEngine.AutoMigrate(&Friend{})
+	//_ = global.DBEngine.AutoMigrate(&Post{})
+	//_ = global.DBEngine.AutoMigrate(&comment{})
 	return nil
 }

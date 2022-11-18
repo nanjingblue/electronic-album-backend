@@ -14,7 +14,7 @@ type Picture struct {
 	PictureName string `gorm:"not null"`
 	Link        string `gorm:"not null"`
 	AlbumID     uint   `gorm:"not null"`
-	Album       Album
+	Album       Gallery
 }
 
 // GetALLPicturesByAlbumID 根据相册 ID 获取所有的图片

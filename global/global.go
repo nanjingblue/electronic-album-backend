@@ -9,4 +9,5 @@ var (
 	ServerSetting   *setting.ServerSettingS
 	DatabaseSetting *setting.DatabaseSettings
 	DBEngine        *gorm.DB
+	JwtSetting      *setting.JwtSettingS
 )
