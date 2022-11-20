@@ -5,7 +5,6 @@ import (
 	"electronic-album/internal/model"
 	"electronic-album/internal/routers"
 	"electronic-album/pkg/setting"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -22,7 +21,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println("hello world")
+	//fmt.Println("hello world")
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
