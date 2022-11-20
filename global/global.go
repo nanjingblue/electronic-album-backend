@@ -10,4 +10,5 @@ var (
 	DatabaseSetting *setting.DatabaseSettings
 	DBEngine        *gorm.DB
 	JwtSetting      *setting.JwtSettingS
+	OSSSetting      *setting.OSSSettingS
 )

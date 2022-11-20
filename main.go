@@ -53,5 +53,9 @@ func setupSetting() interface{} {
 		return err
 	}
 	err = s.ReadSection("Jwt", &global.JwtSetting)
+	if err != nil {
+		return err
+	}
+	err = s.ReadSection("OSS", &global.OSSSetting)
 	return nil
 }
