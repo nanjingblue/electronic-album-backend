@@ -22,7 +22,7 @@ func BuildGallery(it model.Gallery, username string) Gallery {
 		UserID:      it.UserID,
 		UserName:    username,
 		AlbumName:   it.GalleryName,
-		Cover:       it.Cover,
+		Cover:       it.CoverURl(),
 		Status:      it.Status,
 		Description: it.Description,
 		CreatedAt:   it.CreatedAt.Unix(),

@@ -2,6 +2,7 @@ package model
 
 import (
 	"electronic-album/global"
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,6 +14,13 @@ type Gallery struct {
 	Cover       string
 	Status      string `gorm:"default:'active';not null"`
 	Description string
+}
+
+func (g *Gallery) CoverURl() string {
+	client, _ := oss.New(global.OSSSetting.END_POINT, global.OSSSetting.ACCESS_KEY_ID, global.OSSSetting.ACCESS_KEY_SECRET)
+	bucket, _ := client.Bucket(global.OSSSetting.BUCKET)
+	signedGetURL, _ := bucket.SignURL(g.Cover, oss.HTTPGet, 600)
+	return signedGetURL
 }
 
 // GetAllAlbumByUserID 根据 user_id 获取所有的 album
