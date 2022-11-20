@@ -41,7 +41,7 @@ func SetupDBEngine() error {
 	_ = global.DBEngine.AutoMigrate(&Gallery{})
 	//_ = global.DBEngine.AutoMigrate(&Picture{})
 	//_ = global.DBEngine.AutoMigrate(&Friend{})
-	//_ = global.DBEngine.AutoMigrate(&Post{})
+	//_ = global.DBEngine.AutoMigrate(&GetToken{})
 	//_ = global.DBEngine.AutoMigrate(&comment{})
 	return nil
 }

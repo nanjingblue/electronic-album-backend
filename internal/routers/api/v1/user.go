@@ -5,7 +5,6 @@ import (
 	"electronic-album/internal/serializer"
 	"electronic-album/internal/service"
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 func Ping(ctx *gin.Context) {
@@ -13,7 +12,6 @@ func Ping(ctx *gin.Context) {
 }
 
 func UserRegister(ctx *gin.Context) {
-	log.Println(ctx.Request)
 	param := service.UserRegisterRequest{}
 	svc := service.New(ctx)
 	if err := ctx.ShouldBind(&param); err == nil {

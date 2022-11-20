@@ -56,5 +56,8 @@ func setupSetting() interface{} {
 		return err
 	}
 	err = s.ReadSection("OSS", &global.OSSSetting)
+	if err != nil {
+		return err
+	}
 	return nil
 }

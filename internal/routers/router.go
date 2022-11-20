@@ -19,6 +19,7 @@ func NewRouter() *gin.Engine {
 		apiv1.GET("/ping", v1.Ping)
 		apiv1.POST("/register", v1.UserRegister)
 		apiv1.POST("/login", v1.UserLogin)
+		apiv1.POST("upload/token", v1.UploadToken)
 
 		auth := apiv1.Group("")
 		auth.Use(middleware.AuthMiddleware()) // 使用中间件 必须是登录状态才能使用以下接口

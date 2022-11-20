@@ -20,7 +20,7 @@ func (svc *Service) GalleryCreate(param *GalleryCreateService) serializer.Respon
 	gallery := model.Gallery{
 		GalleryName: param.AlbumName,
 		UserID:      user.ID,
-		Cover:       "default_cover.png",
+		Cover:       param.Cover,
 		Status:      model.Active,
 		Description: param.Description,
 	}
