@@ -2,6 +2,7 @@ package model
 
 import (
 	"electronic-album/global"
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/jinzhu/gorm"
 )
 
@@ -12,37 +13,16 @@ Picture 图片
 type Picture struct {
 	gorm.Model
 	PictureName string `gorm:"not null"`
-	Link        string `gorm:"not null"`
-	AlbumID     uint   `gorm:"not null"`
-	Album       Gallery
+	Path        string `gorm:"not null"`
+	UserID      uint   `gorm:"not null"` // 归属用户
+	User        User
+	GalleryID   uint `gorm:"not null"` // 归属相册
+	Gallery     Gallery
 }
 
-// GetALLPicturesByAlbumID 根据相册 ID 获取所有的图片
-func GetALLPicturesByAlbumID(albumID uint) ([]Picture, error) {
-	var pictures []Picture
-	err := global.DBEngine.Where("album_id = ?", albumID).Find(&pictures).Error
-	if err != nil {
-		return nil, err
-	}
-	return pictures, nil
-}
-
-// CreatePicture 新建图片
-func (a *Picture) CreatePicture() error {
-	return global.DBEngine.Create(&a).Error
-}
-
-// DeletePicture 删除图片
-func (a *Picture) DeletePicture() error {
-	return global.DBEngine.Delete(&a).Error
-}
-
-// UpdatePicture 更新图片
-func (a *Picture) UpdatePicture() error {
-	return global.DBEngine.Update(&a).Error
-}
-
-// GetPicture 获取图片
-func (a *Picture) GetPicture() error {
-	return global.DBEngine.First(&a, a.ID).Error
+func (p *Picture) CoverURl() string {
+	client, _ := oss.New(global.OSSSetting.END_POINT, global.OSSSetting.ACCESS_KEY_ID, global.OSSSetting.ACCESS_KEY_SECRET)
+	bucket, _ := client.Bucket(global.OSSSetting.BUCKET)
+	signedGetURL, _ := bucket.SignURL(p.Path, oss.HTTPGet, 600)
+	return signedGetURL
 }

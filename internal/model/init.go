@@ -39,7 +39,7 @@ func SetupDBEngine() error {
 	}
 	_ = global.DBEngine.AutoMigrate(&User{}) // 自动化更新
 	_ = global.DBEngine.AutoMigrate(&Gallery{})
-	//_ = global.DBEngine.AutoMigrate(&Picture{})
+	_ = global.DBEngine.AutoMigrate(&Picture{})
 	//_ = global.DBEngine.AutoMigrate(&Friend{})
 	//_ = global.DBEngine.AutoMigrate(&GetToken{})
 	//_ = global.DBEngine.AutoMigrate(&comment{})

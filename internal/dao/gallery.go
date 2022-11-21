@@ -44,9 +44,9 @@ func (a *GalleryDAO) UpdateGallery(album *model.Gallery) error {
 }
 
 // GetGalleryByGalleryID 获取相册
-func (a *GalleryDAO) GetGalleryByGalleryID(albumID uint) (*model.Gallery, error) {
+func (a *GalleryDAO) GetGalleryByGalleryID(galleryID uint) (*model.Gallery, error) {
 	var album model.Gallery
-	err := global.DBEngine.First(&album, albumID).Error
+	err := global.DBEngine.First(&album, galleryID).Error
 	if err != nil {
 		return nil, err
 	}
