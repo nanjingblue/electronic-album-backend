@@ -11,6 +11,7 @@ import (
 
 type UploadTokenService struct {
 	Filename string `form:"filename" json:"filename" binding:"required"`
+	Path     string `form:"path" json:"path"`
 }
 
 // GetToken 创建token
@@ -42,7 +43,17 @@ func (svc *Service) GetToken(param *UploadTokenService) serializer.Response {
 		oss.ContentType(mime.TypeByExtension(ext)),
 	}
 
-	key := "upload/cover/" + uuid.Must(uuid.NewRandom()).String() + ext
+	path := ""
+	switch param.Path {
+	case "avatar":
+		path = "upload/avatar"
+	case "cover":
+		path = "upload/cover/"
+	default:
+		path = "upload/picture/"
+	}
+
+	key := path + uuid.Must(uuid.NewRandom()).String() + ext
 	// 签名直传。
 	signedPutURL, err := bucket.SignURL(key, oss.HTTPPut, 600, options...)
 	if err != nil {

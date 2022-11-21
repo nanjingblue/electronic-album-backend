@@ -4,6 +4,7 @@ import (
 	"electronic-album/internal/dao"
 	"electronic-album/internal/model"
 	"electronic-album/internal/serializer"
+	"electronic-album/pkg/convert"
 	"strings"
 )
 
@@ -45,16 +46,16 @@ func (pgbgs *PictureListGetService) GetPictures(svc *Service) serializer.Respons
 
 type PictureCreateService struct {
 	PictureService
-	GalleryID uint   `form:"gallery_id" json:"gallery_id"`
+	GalleryID string `form:"gallery_id" json:"gallery_id" binding:"required"`
 	Path      string `form:"path" json:"path" binding:"required"`
 }
 
 func (p *PictureCreateService) CreatePicture(svc *Service) serializer.Response {
 	u, _ := svc.ctx.Get("user")
 	user := u.(model.User)
-
+	galleryID := convert.StrTo(p.GalleryID).MustUInt()
 	// 首先判断相册是否存在，并且属于当前用户
-	gallery, err := dao.Gallery.GetGalleryByGalleryID(p.GalleryID)
+	gallery, err := dao.Gallery.GetGalleryByGalleryID(galleryID)
 	if err != nil || gallery.UserID != user.ID {
 		return serializer.Response{
 			Code:  400,
@@ -69,7 +70,7 @@ func (p *PictureCreateService) CreatePicture(svc *Service) serializer.Response {
 		PictureName: filename,
 		Path:        p.Path,
 		UserID:      user.ID,
-		GalleryID:   p.GalleryID,
+		GalleryID:   galleryID,
 	}
 
 	err = dao.Picture.CreatePicture(&picture)

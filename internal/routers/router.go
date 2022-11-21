@@ -26,10 +26,16 @@ func NewRouter() *gin.Engine {
 		{
 			auth.GET("/user/me", v1.UserMe) // 获取用户详情
 			auth.GET("/user/logout", v1.UserLogout)
+
 			auth.POST("/gallery", v1.GalleryCreateService)  // 创建相册
 			auth.GET("/gallerys", v1.GalleryGetListService) // 获取相册列表
+
 			auth.POST("/picture", v1.PictureCreate)
 			auth.GET("/pictures", v1.PictureGetPicture) // 获取某个相册的所有照片
+
+			auth.GET("/posts", v1.PostList)      // 获取所有关注者的 post
+			auth.GET("/posts/me", v1.PostMyList) // 获取所有自己的 post
+			auth.POST("/post", v1.PostCreate)
 		}
 	}
 	return r
