@@ -6,24 +6,26 @@ import (
 )
 
 type Post struct {
-	ID           uint   `json:"id"`
-	PostUserID   uint   `json:"post_user_id"`
-	PostUsername string `json:"post_username"`
-	PostNickname string `json:"post_nickname"`
-	Content      string `json:"content"`
-	Image        string `json:"image"`
-	PostTime     int64  `json:"post_time"`
+	ID             uint   `json:"id"`
+	PostUserID     uint   `json:"post_user_id"`
+	PostUsername   string `json:"post_username"`
+	PostNickname   string `json:"post_nickname"`
+	PostUserAvatar string `json:"post_user_avatar"`
+	Content        string `json:"content"`
+	Image          string `json:"image"`
+	PostTime       string `json:"post_time"`
 }
 
 func BuildPost(p *model.Post, u *model.User) Post {
 	return Post{
-		ID:           p.ID,
-		PostUserID:   u.ID,
-		PostUsername: u.Username,
-		PostNickname: u.Nickname,
-		Content:      p.Content,
-		Image:        p.GetURl(),
-		PostTime:     p.CreatedAt.Unix(),
+		ID:             p.ID,
+		PostUserID:     u.ID,
+		PostUsername:   u.Username,
+		PostNickname:   u.Nickname,
+		PostUserAvatar: u.Avatar,
+		Content:        p.Content,
+		Image:          p.GetURl(),
+		PostTime:       p.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }
 

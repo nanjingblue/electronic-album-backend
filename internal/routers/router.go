@@ -35,7 +35,10 @@ func NewRouter() *gin.Engine {
 
 			auth.GET("/posts", v1.PostList)      // 获取所有关注者的 post
 			auth.GET("/posts/me", v1.PostMyList) // 获取所有自己的 post
-			auth.POST("/post", v1.PostCreate)
+			auth.POST("/post", v1.PostCreate)    // 发表 post
+
+			auth.GET("/comments", v1.CommentList)   // 根据post_id获取其comment list
+			auth.POST("/comment", v1.CommentCreate) // 添加用户
 		}
 	}
 	return r

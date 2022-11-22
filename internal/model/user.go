@@ -2,6 +2,7 @@ package model
 
 import (
 	"electronic-album/global"
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -68,4 +69,11 @@ func (u *User) SetPassword(password string) error {
 func (u *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(u.PasswordDigest), []byte(password))
 	return err == nil
+}
+
+func (u *User) AvatarURl() string {
+	client, _ := oss.New(global.OSSSetting.END_POINT, global.OSSSetting.ACCESS_KEY_ID, global.OSSSetting.ACCESS_KEY_SECRET)
+	bucket, _ := client.Bucket(global.OSSSetting.BUCKET)
+	signedGetURL, _ := bucket.SignURL(u.Avatar, oss.HTTPGet, 600)
+	return signedGetURL
 }

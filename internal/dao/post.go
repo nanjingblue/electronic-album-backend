@@ -46,8 +46,9 @@ func (p postDao) GetAllPostByUserID(uid uint) ([]model.Post, error) {
 	return posts, nil
 }
 
-func (p postDao) GetPostByID(uid uint) error {
-	return global.DBEngine.First(&p, uid).Error
+func (p postDao) GetPostByID(uid uint) (model.Post, error) {
+	var post model.Post
+	return post, global.DBEngine.First(&post, uid).Error
 }
 
 func (p postDao) CreatePost(post *model.Post) error {

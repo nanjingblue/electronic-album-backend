@@ -3,15 +3,15 @@ package model
 import "github.com/jinzhu/gorm"
 
 /*
-comment
+Comment
 @PostID 对哪条贴子的评论
 @UserID 留言者的ID
 */
-type comment struct {
+type Comment struct {
 	gorm.Model
 	PostID  uint `gorm:"not null"`
 	Post    Post
-	content string
+	Content string
 	UserID  uint `gorm:"not null"`
 	User    User
 }

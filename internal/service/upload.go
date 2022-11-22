@@ -49,6 +49,8 @@ func (svc *Service) GetToken(param *UploadTokenService) serializer.Response {
 		path = "upload/avatar"
 	case "cover":
 		path = "upload/cover/"
+	case "post":
+		path = "upload/post/"
 	default:
 		path = "upload/picture/"
 	}
