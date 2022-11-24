@@ -22,7 +22,7 @@ func BuildPost(p *model.Post, u *model.User) Post {
 		PostUserID:     u.ID,
 		PostUsername:   u.Username,
 		PostNickname:   u.Nickname,
-		PostUserAvatar: u.Avatar,
+		PostUserAvatar: u.AvatarURl(),
 		Content:        p.Content,
 		Image:          p.GetURl(),
 		PostTime:       p.CreatedAt.Format("2006-01-02 15:04:05"),

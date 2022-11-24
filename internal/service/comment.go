@@ -4,7 +4,6 @@ import (
 	"electronic-album/internal/dao"
 	"electronic-album/internal/model"
 	"electronic-album/internal/serializer"
-	"electronic-album/pkg/convert"
 )
 
 type CommentService struct{}
@@ -43,13 +42,14 @@ func (c *CommentGetListService) GetList(svc *Service) serializer.Response {
 
 type CommentCreateService struct {
 	CommentService
-	PostID  string `form:"post_id" json:"post_id" binding:"required"`
+	PostID  uint   `form:"post_id" json:"post_id" binding:"required"`
 	Content string `form:"content" json:"content" binding:"required"`
 }
 
 func (c *CommentCreateService) CreateComment(svc *Service) serializer.Response {
 	// 首先判断 post_id 是不是存在
-	postID := convert.StrTo(c.PostID).MustUInt()
+	//postID := convert.StrTo(c.PostID).MustUInt()
+	postID := c.PostID
 	post, err := dao.Post.GetPostByID(postID)
 	if err != nil {
 		return serializer.Response{
