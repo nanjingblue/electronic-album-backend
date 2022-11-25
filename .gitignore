@@ -16,3 +16,4 @@
 .idea/
 configs/config.yaml
 .vscode/
+gallery.db

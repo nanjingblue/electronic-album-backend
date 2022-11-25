@@ -56,7 +56,7 @@ func (p postDao) CreatePost(post *model.Post) error {
 }
 
 func (p postDao) Update(post *model.Post) error {
-	return global.DBEngine.Update(&post).Error
+	return global.DBEngine.Save(&post).Error
 }
 
 func (p postDao) Delete(post *model.Post) error {

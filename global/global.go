@@ -2,7 +2,7 @@ package global
 
 import (
 	"electronic-album/pkg/setting"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 var (

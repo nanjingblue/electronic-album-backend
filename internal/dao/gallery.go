@@ -40,7 +40,7 @@ func (a GalleryDAO) DeleteGalleryByGalleryID(albumID uint) error {
 
 // UpdateGallery 更新相册
 func (a *GalleryDAO) UpdateGallery(album *model.Gallery) error {
-	return global.DBEngine.Update(&album).Error
+	return global.DBEngine.Save(&album).Error
 }
 
 // GetGalleryByGalleryID 获取相册

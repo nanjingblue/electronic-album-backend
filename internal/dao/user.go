@@ -41,7 +41,7 @@ func (u userDAO) CreateUser(user *model.User) error {
 
 // UpdateUser 更新用户
 func (u userDAO) UpdateUser(user *model.User) error {
-	return global.DBEngine.Update(&user).Error
+	return global.DBEngine.Save(&user).Error
 }
 
 // DeleteUserByUserID 删除用户

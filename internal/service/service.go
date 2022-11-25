@@ -4,7 +4,7 @@ import (
 	"electronic-album/global"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type Service struct {

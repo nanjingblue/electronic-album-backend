@@ -35,7 +35,7 @@ func (a PictureDao) DeletePicture(picture *model.Picture) error {
 
 // UpdatePicture 更新图片
 func (a PictureDao) UpdatePicture(picture *model.Picture) error {
-	return global.DBEngine.Update(&picture).Error
+	return global.DBEngine.Save(&picture).Error
 }
 
 // GetPicture 获取图片

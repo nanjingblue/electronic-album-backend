@@ -32,5 +32,5 @@ func (c commentDAO) DeleteComment(comment *model.Comment) error {
 }
 
 func (c commentDAO) UpdateComment(comment *model.Comment) error {
-	return global.DBEngine.Update(&comment).Error
+	return global.DBEngine.Save(&comment).Error
 }

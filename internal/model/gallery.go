@@ -49,7 +49,7 @@ func (a *Gallery) DeleteAlbum() error {
 
 // UpdateAlbum 更新相册
 func (a *Gallery) UpdateAlbum() error {
-	return global.DBEngine.Update(&a).Error
+	return global.DBEngine.Save(&a).Error
 }
 
 // GetAlbum 获取相册

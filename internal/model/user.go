@@ -47,7 +47,7 @@ func (u *User) CreateUser() error {
 
 // UpdateUser 更新用户
 func (u *User) UpdateUser() error {
-	return global.DBEngine.Update(&u).Error
+	return global.DBEngine.Save(&u).Error
 }
 
 // DeleteUser 删除用户

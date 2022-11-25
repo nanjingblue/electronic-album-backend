@@ -4,8 +4,9 @@ import (
 	"electronic-album/global"
 	"electronic-album/pkg/setting"
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/glebarez/sqlite"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func NewDBEngine(databaseSetting *setting.DatabaseSettings) (*gorm.DB, error) {
@@ -16,18 +17,16 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettings) (*gorm.DB, error) {
 		databaseSetting.DBName,
 		databaseSetting.Charset,
 		databaseSetting.ParseTime)
-	db, err := gorm.Open(databaseSetting.DBType, args)
+	var db *gorm.DB
+	var err error
+	if global.DatabaseSetting.DBType == "mysql" {
+		db, err = gorm.Open(mysql.Open(args), &gorm.Config{})
+	} else {
+		db, err = gorm.Open(sqlite.Open("gallery.db"), &gorm.Config{})
+	}
 	if err != nil {
 		return nil, err
 	}
-	if global.ServerSetting.RunMode == "debug" {
-		db.LogMode(true)
-	}
-	db.SingularTable(true)
-
-	db.DB().SetMaxIdleConns(databaseSetting.MaxIdleConns)
-	db.DB().SetMaxOpenConns(databaseSetting.MaxOpenConns)
-
 	return db, nil
 }
 
