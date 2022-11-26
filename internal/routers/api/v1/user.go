@@ -59,3 +59,17 @@ func UserLogout(ctx *gin.Context) {
 		Msg:  "登出成功",
 	})
 }
+
+func UserUpdate(ctx *gin.Context) {
+	serv := service.UserUpdateProfileService{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&serv); err == nil {
+		res := serv.Update(&svc)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "更新失败",
+			"error": err.Error(),
+		})
+	}
+}

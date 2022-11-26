@@ -130,3 +130,42 @@ func (svc *Service) Login(param *UserLoginRequest) serializer.Response {
 		Token: token,
 	}
 }
+
+type UserUpdateProfileService struct {
+	Nickname    string `form:"nickname" json:"nickname"`
+	Password    string `form:"password" json:"password"`
+	Age         uint   `form:"age" json:"age"`
+	Avatar      string `form:"avatar" json:"avatar"`
+	Description string `form:"description" json:"description"`
+}
+
+func (uup *UserUpdateProfileService) Update(svc *Service) serializer.Response {
+	// 只有当前用户才能修改
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	if uup.Nickname != "" {
+		user.Nickname = uup.Nickname
+	}
+	if uup.Description != "" {
+		user.Description = uup.Description
+	}
+	if uup.Password != "" {
+		user.SetPassword(uup.Password)
+	}
+	if uup.Avatar != "" {
+		user.Avatar = uup.Avatar
+	}
+	if 0 != uup.Age {
+		uup.Age = uup.Age
+	}
+	err := dao.User.UpdateUser(&user)
+	if err != nil {
+		return serializer.Response{
+			Code:  400,
+			Msg:   "更新失败",
+			Error: err.Error(),
+		}
+	}
+	return serializer.Response{}
+}

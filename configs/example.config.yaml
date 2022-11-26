@@ -15,3 +15,17 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+
+  Jwt:
+    Key:
+
+  Storage:
+    GalleryCoverPath:
+    PicturePath:
+    AvatarPath:
+
+  OSS:
+    END_POINT:
+    ACCESS_KEY_ID:
+    ACCESS_KEY_SECRET:
+    BUCKET:
