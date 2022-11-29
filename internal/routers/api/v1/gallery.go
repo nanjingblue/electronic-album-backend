@@ -2,6 +2,7 @@ package v1
 
 import (
 	"electronic-album/internal/service"
+	"electronic-album/pkg/convert"
 	"github.com/gin-gonic/gin"
 )
 
@@ -43,12 +44,34 @@ func GalleryGetListService(ctx *gin.Context) {
 GalleryUpdateService 更新相册服务
 */
 func GalleryUpdateService(ctx *gin.Context) {
-
+	serv := service.GalleryUpdateService{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&serv); err == nil {
+		res := serv.Update(&svc)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "更新相册失败",
+			"error": err.Error(),
+		})
+	}
 }
 
 /*
 GalleryDeleteService 删除相册服务
 */
 func GalleryDeleteService(ctx *gin.Context) {
-
+	serv := service.GalleryDeleteService{
+		GalleryID: convert.StrTo(ctx.Param("gallery_id")).MustUInt(),
+	}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&serv); err == nil {
+		res := serv.Delete(&svc)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "删除相册失败",
+			"error": err.Error(),
+		})
+	}
 }

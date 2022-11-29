@@ -30,6 +30,8 @@ func NewRouter() *gin.Engine {
 
 			auth.POST("/gallery", v1.GalleryCreateService)  // 创建相册
 			auth.GET("/gallerys", v1.GalleryGetListService) // 获取相册列表
+			auth.PUT("gallery", v1.GalleryUpdateService)
+			auth.DELETE("/gallery", v1.GalleryDeleteService)
 
 			auth.POST("/picture", v1.PictureCreate)
 			auth.GET("/pictures", v1.PictureGetPicture) // 获取某个相册的所有照片
