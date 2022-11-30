@@ -10,16 +10,19 @@ type ServerSettingS struct {
 }
 
 type DatabaseSettings struct {
-	DBType       string
-	Username     string
-	Password     string
-	Host         string
-	DBName       string
-	TablePrefix  string
-	Charset      string
-	ParseTime    bool
-	MaxIdleConns int
-	MaxOpenConns int
+	DBType        string
+	Username      string
+	Password      string
+	Host          string
+	DBName        string
+	TablePrefix   string
+	Charset       string
+	ParseTime     bool
+	MaxIdleConns  int
+	MaxOpenConns  int
+	RedisAddr     string
+	RedisPassword string
+	RedisDB       int
 }
 
 type JwtSettingS struct {

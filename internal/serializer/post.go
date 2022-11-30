@@ -14,6 +14,10 @@ type Post struct {
 	Content        string `json:"content"`
 	Image          string `json:"image"`
 	PostTime       string `json:"post_time"`
+	View           uint64 `json:"view"`
+	Like           uint64 `json:"like"`
+	Collection     uint64 `json:"collection"`
+	Comment        uint64 `json:"comment"`
 }
 
 func BuildPost(p *model.Post, u *model.User) Post {
@@ -26,6 +30,10 @@ func BuildPost(p *model.Post, u *model.User) Post {
 		Content:        p.Content,
 		Image:          p.GetURl(),
 		PostTime:       p.CreatedAt.Format("2006-01-02 15:04:05"),
+		View:           p.View(),
+		Like:           p.Like(),
+		Collection:     p.Collection(),
+		Comment:        p.Comment(),
 	}
 }
 

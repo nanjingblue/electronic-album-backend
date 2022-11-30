@@ -2,6 +2,7 @@ package main
 
 import (
 	"electronic-album/global"
+	"electronic-album/internal/cache"
 	"electronic-album/internal/model"
 	"electronic-album/internal/routers"
 	"electronic-album/pkg/setting"
@@ -15,6 +16,10 @@ func init() {
 		panic(err)
 	}
 	err = model.SetupDBEngine()
+	if err != nil {
+		panic(err)
+	}
+	err = cache.SetupRedis()
 	if err != nil {
 		panic(err)
 	}

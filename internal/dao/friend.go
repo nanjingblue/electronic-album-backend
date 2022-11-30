@@ -16,7 +16,7 @@ func init() {
 // GetALLFollowingFriendsByUserID 通过 userID 获取好友列表
 func (f friendDao) GetALLFollowingFriendsByUserID(uid uint) ([]model.User, error) {
 	var friends []model.User
-	err := global.DBEngine.Table("user").Select("*").Joins("join friend on user.id = friend.user_id").Scan(&friends).Error
+	err := global.DBEngine.Table("users").Select("*").Joins("join friends on users.id = friends.user_id").Scan(&friends).Error
 	if err != nil {
 		return nil, err
 	}

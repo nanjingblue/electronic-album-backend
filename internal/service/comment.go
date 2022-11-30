@@ -23,6 +23,10 @@ func (c *CommentGetListService) GetList(svc *Service) serializer.Response {
 			Error: err.Error(),
 		}
 	}
+
+	// 由于前端中，评论列表属于照片详情页，所以把增加点击数放在这里
+	post.AddView()
+
 	comments, err := dao.Comment.GetAllCommentByPostID(post.ID)
 	if err != nil {
 		return serializer.Response{
@@ -75,6 +79,9 @@ func (c *CommentCreateService) CreateComment(svc *Service) serializer.Response {
 			Error: err.Error(),
 		}
 	}
+
+	// 评论数加一
+	post.AddComment()
 
 	return serializer.Response{
 		Code: 200,

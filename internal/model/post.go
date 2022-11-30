@@ -2,8 +2,10 @@ package model
 
 import (
 	"electronic-album/global"
+	"electronic-album/internal/cache"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/jinzhu/gorm"
+	"strconv"
 )
 
 /*
@@ -25,6 +27,57 @@ func (p *Post) GetURl() string {
 	return signedGetURL
 }
 
+// View 点击数
+func (p *Post) View() uint64 {
+	countStr, _ := cache.RedisClient.Get(cache.PostViewKey(p.ID)).Result()
+	count, _ := strconv.ParseUint(countStr, 10, 64)
+	return count
+}
+
+// AddView post点击
+func (p *Post) AddView() {
+	cache.RedisClient.Incr(cache.PostViewKey(p.ID))
+}
+
+// Like post喜欢数
+func (p *Post) Like() uint64 {
+	countStr, _ := cache.RedisClient.Get(cache.PostLikeKey(p.ID)).Result()
+	count, _ := strconv.ParseUint(countStr, 10, 64)
+	return count
+}
+
+// AddLike post喜欢+1
+func (p *Post) AddLike() {
+	cache.RedisClient.Incr(cache.PostLikeKey(p.ID))
+}
+
+// Collection 收藏数
+func (p *Post) Collection() uint64 {
+	countStr, _ := cache.RedisClient.Get(cache.PostCollectionKey(p.ID)).Result()
+	count, _ := strconv.ParseUint(countStr, 10, 64)
+	return count
+}
+
+// AddCollection 收藏添加
+func (p *Post) AddCollection() {
+	cache.RedisClient.Incr(cache.PostCollectionKey(p.ID))
+}
+
+// Comment 收藏数
+func (p *Post) Comment() uint64 {
+	countStr, _ := cache.RedisClient.Get(cache.PostCommentKey(p.ID)).Result()
+	count, _ := strconv.ParseUint(countStr, 10, 64)
+	return count
+}
+
+// AddComment 收藏添加
+func (p *Post) AddComment() {
+	cache.RedisClient.Incr(cache.PostCommentKey(p.ID))
+}
+
+/*
+PostSlice 切片排序
+*/
 type PostSlice []Post
 
 func (p PostSlice) Len() int {
