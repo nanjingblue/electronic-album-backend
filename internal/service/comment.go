@@ -1,9 +1,9 @@
 package service
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
-	"electronic-album/internal/serializer"
+	"electronic-gallery/internal/dao"
+	"electronic-gallery/internal/model"
+	"electronic-gallery/internal/serializer"
 )
 
 type CommentService struct{}
@@ -82,6 +82,7 @@ func (c *CommentCreateService) CreateComment(svc *Service) serializer.Response {
 
 	// 评论数加一
 	post.AddComment()
+	_ = dao.UserPostDAO.Comment(user.ID, post.ID)
 
 	return serializer.Response{
 		Code: 200,

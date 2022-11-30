@@ -1,10 +1,10 @@
 package service
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
-	"electronic-album/internal/serializer"
-	"electronic-album/pkg/convert"
+	"electronic-gallery/internal/dao"
+	"electronic-gallery/internal/model"
+	"electronic-gallery/internal/serializer"
+	"electronic-gallery/pkg/convert"
 )
 
 // GalleryCreateService 相册创建服务

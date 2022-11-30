@@ -1,8 +1,8 @@
 package service
 
 import (
-	"electronic-album/global"
-	"electronic-album/internal/serializer"
+	"electronic-gallery/global"
+	"electronic-gallery/internal/serializer"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/google/uuid"
 	"mime"

@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"electronic-album/internal/service"
+	"electronic-gallery/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

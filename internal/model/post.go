@@ -1,10 +1,10 @@
 package model
 
 import (
-	"electronic-album/global"
-	"electronic-album/internal/cache"
+	"electronic-gallery/global"
+	"electronic-gallery/internal/cache"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 	"strconv"
 )
 
@@ -51,6 +51,10 @@ func (p *Post) AddLike() {
 	cache.RedisClient.Incr(cache.PostLikeKey(p.ID))
 }
 
+func (p *Post) CancelLike() {
+	cache.RedisClient.Decr(cache.PostLikeKey(p.ID))
+}
+
 // Collection 收藏数
 func (p *Post) Collection() uint64 {
 	countStr, _ := cache.RedisClient.Get(cache.PostCollectionKey(p.ID)).Result()
@@ -63,14 +67,17 @@ func (p *Post) AddCollection() {
 	cache.RedisClient.Incr(cache.PostCollectionKey(p.ID))
 }
 
-// Comment 收藏数
+// CancelCollection 取消收藏
+func (p *Post) CancelCollection() {
+	cache.RedisClient.Decr(cache.PostCollectionKey(p.ID))
+}
+
 func (p *Post) Comment() uint64 {
 	countStr, _ := cache.RedisClient.Get(cache.PostCommentKey(p.ID)).Result()
 	count, _ := strconv.ParseUint(countStr, 10, 64)
 	return count
 }
 
-// AddComment 收藏添加
 func (p *Post) AddComment() {
 	cache.RedisClient.Incr(cache.PostCommentKey(p.ID))
 }

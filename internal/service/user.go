@@ -1,13 +1,11 @@
 package service
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
-	"electronic-album/internal/serializer"
-	"electronic-album/pkg/app"
+	"electronic-gallery/internal/dao"
+	"electronic-gallery/internal/model"
+	"electronic-gallery/internal/serializer"
+	"electronic-gallery/pkg/app"
 	"fmt"
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
 )
 
 // UserRegisterRequest 注册表单结构体
@@ -83,13 +81,6 @@ func (svc *Service) Register(param *UserRegisterRequest) serializer.Response {
 type UserLoginRequest struct {
 	Username string `form:"username" json:"username" binding:"required,min=1,max=12"`
 	Password string `form:"password" json:"password" binding:"required,min=6,max=30"`
-}
-
-func (ulr *UserLoginRequest) setSession(c *gin.Context, user *model.User) {
-	s := sessions.Default(c)
-	s.Clear()
-	s.Set("user_id", user.ID)
-	s.Save()
 }
 
 func (svc *Service) Login(param *UserLoginRequest) serializer.Response {

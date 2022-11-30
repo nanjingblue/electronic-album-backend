@@ -1,9 +1,9 @@
 package model
 
 import (
-	"electronic-album/global"
+	"electronic-gallery/global"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type Gallery struct {

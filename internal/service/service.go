@@ -1,21 +1,18 @@
 package service
 
 import (
-	"electronic-album/global"
-	"github.com/gin-contrib/sessions"
+	"electronic-gallery/global"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 type Service struct {
-	ctx     *gin.Context
-	db      *gorm.DB
-	session sessions.Session
+	ctx *gin.Context
+	db  *gorm.DB
 }
 
 func New(ctx *gin.Context) Service {
 	svc := Service{ctx: ctx}
 	svc.db = global.DBEngine
-	//svc.session = sessions.Default(ctx)
 	return svc
 }

@@ -20,6 +20,7 @@ type DatabaseSettings struct {
 	ParseTime     bool
 	MaxIdleConns  int
 	MaxOpenConns  int
+	SqliteDB      string
 	RedisAddr     string
 	RedisPassword string
 	RedisDB       int

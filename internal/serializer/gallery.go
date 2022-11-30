@@ -1,7 +1,7 @@
 package serializer
 
 import (
-	"electronic-album/internal/model"
+	"electronic-gallery/internal/model"
 )
 
 type Gallery struct {

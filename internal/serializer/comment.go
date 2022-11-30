@@ -1,8 +1,8 @@
 package serializer
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
+	"electronic-gallery/internal/dao"
+	"electronic-gallery/internal/model"
 )
 
 type Comment struct {

@@ -1,6 +1,6 @@
 package serializer
 
-import "electronic-album/internal/model"
+import "electronic-gallery/internal/model"
 
 type Picture struct {
 	ID          uint   `json:"id"`

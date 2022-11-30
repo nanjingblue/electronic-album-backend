@@ -1,8 +1,8 @@
 package v1
 
 import (
-	"electronic-album/internal/service"
-	"electronic-album/pkg/convert"
+	"electronic-gallery/internal/service"
+	"electronic-gallery/pkg/convert"
 	"github.com/gin-gonic/gin"
 )
 

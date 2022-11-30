@@ -1,45 +1,13 @@
 package middleware
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
-	"electronic-album/internal/serializer"
-	"electronic-album/pkg/app"
-	"github.com/gin-contrib/sessions"
+	"electronic-gallery/internal/dao"
+	"electronic-gallery/pkg/app"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"strings"
 )
-
-// CurrentUser 获取登录用户
-func CurrentUser() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		uid := session.Get("user_id")
-		if uid != nil {
-			user, err := dao.User.GetUserByID(uid.(uint))
-			if err == nil {
-				c.Set("user", user)
-			}
-		}
-		c.Next()
-	}
-}
-
-// AuthRequired 需要登录
-func AuthRequired() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		if user, _ := c.Get("user"); user != nil {
-			if _, ok := user.(model.User); ok {
-				c.Next()
-				return
-			}
-		}
-		c.JSON(200, serializer.CheckLogin())
-		c.Abort()
-	}
-}
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {

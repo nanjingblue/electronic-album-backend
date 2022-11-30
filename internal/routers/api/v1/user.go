@@ -1,9 +1,9 @@
 package v1
 
 import (
-	"electronic-album/internal/model"
-	"electronic-album/internal/serializer"
-	"electronic-album/internal/service"
+	"electronic-gallery/internal/model"
+	"electronic-gallery/internal/serializer"
+	"electronic-gallery/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"electronic-album/global"
-	"electronic-album/internal/cache"
-	"electronic-album/internal/model"
-	"electronic-album/internal/routers"
-	"electronic-album/pkg/setting"
+	"electronic-gallery/global"
+	"electronic-gallery/internal/cache"
+	"electronic-gallery/internal/model"
+	"electronic-gallery/internal/routers"
+	"electronic-gallery/pkg/setting"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

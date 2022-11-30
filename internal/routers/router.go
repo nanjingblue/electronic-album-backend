@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"electronic-album/internal/middleware"
-	v1 "electronic-album/internal/routers/api/v1"
+	"electronic-gallery/internal/middleware"
+	v1 "electronic-gallery/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,8 +10,6 @@ func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	//r.Use(middleware.Session("hello-world"))
-	//r.Use(middleware.CurrentUser())
 	r.Use(middleware.Cors())
 
 	apiv1 := r.Group("/api/v1")
@@ -36,9 +34,13 @@ func NewRouter() *gin.Engine {
 			auth.POST("/picture", v1.PictureCreate)
 			auth.GET("/pictures", v1.PictureGetPicture) // 获取某个相册的所有照片
 
-			auth.GET("/posts", v1.PostList)      // 获取所有关注者的 post
-			auth.GET("/posts/me", v1.PostMyList) // 获取所有自己的 post
-			auth.POST("/post", v1.PostCreate)    // 发表 post
+			auth.GET("/posts", v1.PostList)                              // 获取所有关注者的 post
+			auth.GET("/posts/me", v1.PostMyList)                         // 获取所有自己的 post
+			auth.POST("/post", v1.PostCreate)                            // 发表 post
+			auth.GET("/post/like", v1.PostLike)                          // 喜欢post
+			auth.GET("/post/cancel_like", v1.PostCancelLike)             // 取消喜欢 post
+			auth.GET("/post/collection", v1.PostCollection)              // 收藏post
+			auth.GET("/post/cancel_collection", v1.PostCancelCollection) // 取消收藏post
 
 			auth.GET("/comments", v1.CommentList)   // 根据post_id获取其comment list
 			auth.POST("/comment", v1.CommentCreate) // 添加用户

@@ -1,9 +1,9 @@
 package service
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
-	"electronic-album/internal/serializer"
+	"electronic-gallery/internal/dao"
+	"electronic-gallery/internal/model"
+	"electronic-gallery/internal/serializer"
 )
 
 type PostService struct{}
@@ -81,7 +81,134 @@ func (p *PostCreateService) CreatePost(svc *Service) serializer.Response {
 
 	return serializer.Response{
 		Code: 200,
-		Data: serializer.BuildPost(&post, &user),
+		Data: serializer.BuildPost(&post),
 		Msg:  "创建post成功",
+	}
+}
+
+type PostLikeService struct {
+	PostID uint `form:"post_id" json:"post_id" binding:"required"`
+}
+
+func (p *PostLikeService) Like(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	post, err := dao.Post.GetPostByID(p.PostID)
+	if err != nil {
+		return serializer.Response{
+			Code:  400,
+			Msg:   "like post: 不存在post",
+			Error: err.Error(),
+		}
+	}
+
+	post.AddLike()                               // redis
+	err = dao.UserPostDAO.Like(user.ID, post.ID) // 关系
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "like post: 添加记录失败",
+			Error: err.Error(),
+		}
+	}
+
+	return serializer.Response{
+		Code: 200,
+		Data: serializer.BuildPost(&post),
+		Msg:  "like post success",
+	}
+}
+
+func (p *PostLikeService) CancelLike(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	post, err := dao.Post.GetPostByID(p.PostID)
+	if err != nil {
+		return serializer.Response{
+			Code:  400,
+			Msg:   "cancel like post: 不存在post",
+			Error: err.Error(),
+		}
+	}
+	post.CancelLike()
+	err = dao.UserPostDAO.CancelLike(user.ID, post.ID)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "cancel like post: 不存在post 或者 更新失败",
+			Error: err.Error(),
+		}
+	}
+
+	return serializer.Response{
+		Code: 200,
+		Data: post,
+		Msg:  "cancel like post success",
+	}
+}
+
+type PostCollectionService struct {
+	PostID uint `form:"post_id" json:"post_id" binding:"required"`
+}
+
+func (p *PostCollectionService) Collection(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	post, err := dao.Post.GetPostByID(p.PostID)
+	if err != nil {
+		return serializer.Response{
+			Code:  400,
+			Msg:   "collect post: 不存在post",
+			Error: err.Error(),
+		}
+	}
+
+	post.AddCollection()
+	err = dao.UserPostDAO.Collect(user.ID, post.ID)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "collect post: 添加后更新记录失败",
+			Error: err.Error(),
+		}
+	}
+
+	return serializer.Response{
+		Code: 200,
+		Data: serializer.BuildPost(&post),
+		Msg:  "collect post success",
+	}
+}
+
+func (p *PostCollectionService) CancelCollection(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	post, err := dao.Post.GetPostByID(p.PostID)
+	if err != nil {
+		return serializer.Response{
+			Code:  400,
+			Msg:   "cancel collect post: 不存在post",
+			Error: err.Error(),
+		}
+	}
+
+	post.CancelCollection()
+	err = dao.UserPostDAO.CancelCollect(user.ID, post.ID)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "cancel collect failed: 不存在post或更新失败",
+			Error: err.Error(),
+		}
+	}
+
+	return serializer.Response{
+		Code: 200,
+		Data: post,
+		Msg:  "cancel like post success",
 	}
 }

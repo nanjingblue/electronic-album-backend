@@ -1,7 +1,7 @@
 package global
 
 import (
-	"electronic-album/pkg/setting"
+	"electronic-gallery/pkg/setting"
 	"gorm.io/gorm"
 )
 

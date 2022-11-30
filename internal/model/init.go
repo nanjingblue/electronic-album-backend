@@ -1,8 +1,8 @@
 package model
 
 import (
-	"electronic-album/global"
-	"electronic-album/pkg/setting"
+	"electronic-gallery/global"
+	"electronic-gallery/pkg/setting"
 	"fmt"
 	"github.com/glebarez/sqlite"
 	"gorm.io/driver/mysql"
@@ -22,7 +22,10 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettings) (*gorm.DB, error) {
 	if global.DatabaseSetting.DBType == "mysql" {
 		db, err = gorm.Open(mysql.Open(args), &gorm.Config{})
 	} else {
-		db, err = gorm.Open(sqlite.Open("gallery.db"), &gorm.Config{})
+		if global.DatabaseSetting.SqliteDB == "" {
+			global.DatabaseSetting.SqliteDB = "gallery.db"
+		}
+		db, err = gorm.Open(sqlite.Open(global.DatabaseSetting.SqliteDB), &gorm.Config{})
 	}
 	if err != nil {
 		return nil, err
@@ -42,5 +45,6 @@ func SetupDBEngine() error {
 	_ = global.DBEngine.AutoMigrate(&Friend{})
 	_ = global.DBEngine.AutoMigrate(&Post{})
 	_ = global.DBEngine.AutoMigrate(&Comment{})
+	_ = global.DBEngine.AutoMigrate(&UserPost{})
 	return nil
 }

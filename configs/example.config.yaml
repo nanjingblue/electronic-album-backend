@@ -16,6 +16,8 @@ Database:
   MaxIdleConns: 10
   MaxOpenConns: 30
 
+  SqliteDB: ./gallery.db # 如果使用 sqlite 需要填写数据库的位置 默认就在项目根目录
+
   RedisAddr: 127.0.0.1:6379
   RedisPassword:
   RedisDB: 0

@@ -1,8 +1,7 @@
 package serializer
 
 import (
-	"electronic-album/internal/dao"
-	"electronic-album/internal/model"
+	"electronic-gallery/internal/model"
 )
 
 type Post struct {
@@ -20,13 +19,13 @@ type Post struct {
 	Comment        uint64 `json:"comment"`
 }
 
-func BuildPost(p *model.Post, u *model.User) Post {
+func BuildPost(p *model.Post) Post {
 	return Post{
 		ID:             p.ID,
-		PostUserID:     u.ID,
-		PostUsername:   u.Username,
-		PostNickname:   u.Nickname,
-		PostUserAvatar: u.AvatarURl(),
+		PostUserID:     p.User.ID,
+		PostUsername:   p.User.Username,
+		PostNickname:   p.User.Nickname,
+		PostUserAvatar: p.User.AvatarURl(),
 		Content:        p.Content,
 		Image:          p.GetURl(),
 		PostTime:       p.CreatedAt.Format("2006-01-02 15:04:05"),
@@ -40,8 +39,7 @@ func BuildPost(p *model.Post, u *model.User) Post {
 func BuildPosts(it []model.Post) []Post {
 	var posts []Post
 	for _, item := range it {
-		u, _ := dao.User.GetUserByID(item.UserID)
-		posts = append(posts, BuildPost(&item, &u))
+		posts = append(posts, BuildPost(&item))
 	}
 	return posts
 }

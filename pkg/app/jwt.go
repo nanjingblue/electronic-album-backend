@@ -1,8 +1,8 @@
 package app
 
 import (
-	"electronic-album/global"
-	"electronic-album/internal/model"
+	"electronic-gallery/global"
+	"electronic-gallery/internal/model"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )

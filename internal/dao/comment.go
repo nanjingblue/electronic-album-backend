@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"electronic-album/global"
-	"electronic-album/internal/model"
+	"electronic-gallery/global"
+	"electronic-gallery/internal/model"
 )
 
 type commentDAO struct{}

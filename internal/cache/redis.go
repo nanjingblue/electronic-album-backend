@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"electronic-album/global"
+	"electronic-gallery/global"
 	"github.com/go-redis/redis"
 )
 

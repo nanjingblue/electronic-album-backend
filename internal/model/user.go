@@ -1,10 +1,10 @@
 package model
 
 import (
-	"electronic-album/global"
+	"electronic-gallery/global"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 const (
@@ -24,7 +24,7 @@ type User struct {
 	Nickname       string `gorm:"default:'奥特曼'"`
 	PasswordDigest string `gorm:"not null"`
 	Status         string `gorm:"default:'active';not null"`
-	Sex            string
+	Gender         string
 	Age            uint
 	Avatar         string
 	Description    string
