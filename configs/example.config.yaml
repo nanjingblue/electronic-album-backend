@@ -16,17 +16,21 @@ Database:
   MaxIdleConns: 10
   MaxOpenConns: 30
 
-  Jwt:
-    Key:
+  RedisAddr: 127.0.0.1:6379
+  RedisPassword:
+  RedisDB: 0
 
-  Storage:
-    GalleryCoverPath:
-    PicturePath:
-    AvatarPath:
+Jwt:
+  Key:
 
-  # 阿里云OSS对象存储
-  OSS:
-    END_POINT:
-    ACCESS_KEY_ID:
-    ACCESS_KEY_SECRET:
-    BUCKET:
+Storage:
+  GalleryCoverPath:
+  PicturePath:
+  AvatarPath:
+
+# 阿里云OSS对象存储
+OSS:
+  END_POINT:
+  ACCESS_KEY_ID:
+  ACCESS_KEY_SECRET:
+  BUCKET:
