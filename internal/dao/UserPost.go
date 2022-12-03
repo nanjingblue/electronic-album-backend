@@ -13,6 +13,16 @@ func init() {
 	UserPostDAO = &userPostDAO{}
 }
 
+func (up userPostDAO) IsLikedByUser(userID, postID uint) bool {
+	var userPost model.UserPost
+	return global.DBEngine.Where("user_id = ? AND post_id = ? AND liked = ?", userID, postID, 1).First(&userPost).Error == nil
+}
+
+func (up userPostDAO) IsCollectedByUser(userID, postID uint) bool {
+	var userPost model.UserPost
+	return global.DBEngine.Where("user_id = ? AND post_id = ? AND collected = ?", userID, postID, true).First(&userPost).Error == nil
+}
+
 func (up userPostDAO) GetUserPost(userID, postID uint) (model.UserPost, error) {
 	var userPost model.UserPost
 	err := global.DBEngine.Where("user_id = ? AND post_id = ?", userID, postID).First(&userPost).Error

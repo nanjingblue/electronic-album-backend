@@ -27,7 +27,7 @@ func (p PostGetListService) GetList(svc *Service) serializer.Response {
 
 	return serializer.Response{
 		Code: 200,
-		Data: serializer.BuildPosts(posts),
+		Data: serializer.BuildPostsWithMe(posts, user),
 		Msg:  "获取所有follow post 成功",
 	}
 }

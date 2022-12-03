@@ -39,7 +39,7 @@ func NewRouter() *gin.Engine {
 			auth.POST("/post", v1.PostCreate)                            // 发表 post
 			auth.GET("/post/like", v1.PostLike)                          // 喜欢post
 			auth.GET("/post/cancel_like", v1.PostCancelLike)             // 取消喜欢 post
-			auth.GET("/post/collection", v1.PostCollection)              // 收藏post
+			auth.GET("/post/collect", v1.PostCollection)                 // 收藏 post
 			auth.GET("/post/cancel_collection", v1.PostCancelCollection) // 取消收藏post
 
 			auth.GET("/comments", v1.CommentList)   // 根据post_id获取其comment list
