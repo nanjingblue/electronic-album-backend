@@ -36,6 +36,9 @@ func NewRouter() *gin.Engine {
 
 			auth.GET("/posts", v1.PostList)                              // 获取所有关注者的 post
 			auth.GET("/posts/me", v1.PostMyList)                         // 获取所有自己的 post
+			auth.GET("/posts/me/liked", v1.PostListLikedByMe) // 获取所有被自己喜欢的post
+			auth.GET("/posts/me/collected", v1.PostListCollectedByMe) // 获取所有被自己收藏的post
+
 			auth.POST("/post", v1.PostCreate)                            // 发表 post
 			auth.GET("/post/like", v1.PostLike)                          // 喜欢post
 			auth.GET("/post/cancel_like", v1.PostCancelLike)             // 取消喜欢 post

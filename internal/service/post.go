@@ -27,7 +27,7 @@ func (p PostGetListService) GetList(svc *Service) serializer.Response {
 
 	return serializer.Response{
 		Code: 200,
-		Data: serializer.BuildPostsWithMe(posts, user),
+		Data: serializer.BuildPostsWithUser(posts, user),
 		Msg:  "获取所有follow post 成功",
 	}
 }
@@ -51,6 +51,48 @@ func (p *PostGetMyListService) GetList(svc *Service) serializer.Response {
 		Code: 200,
 		Data: serializer.BuildPosts(posts),
 		Msg:  "获取所有my post 成功",
+	}
+}
+
+type PostListLikedByMeService struct{}
+
+func (p *PostListLikedByMeService) GetList(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	posts, err := dao.Post.GetPostsLikedByUser(user.ID)
+	if err != nil {
+		return serializer.Response{
+			Code: 500,
+			Msg: "获取用户喜欢的post：失败",
+			Error: err.Error(),
+		}
+	}
+	return serializer.Response{
+		Code: 200,
+		Data: serializer.BuildPostsWithUser(posts, user),
+		Msg: "获取所有被自己喜欢的 post 成功",
+	}
+}
+
+type PostListCollectedByMeService struct{}
+
+func (p *PostListCollectedByMeService) GetList(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	posts, err := dao.Post.GetPostsCollectedByUser(user.ID)
+	if err != nil {
+		return serializer.Response{
+			Code: 500,
+			Msg: "获取用户收藏的post：失败",
+			Error: err.Error(),
+		}
+	}
+	return serializer.Response{
+		Code: 200,
+		Data: serializer.BuildPostsWithUser(posts, user),
+		Msg: "获取所有被自己收藏的 post 成功",
 	}
 }
 

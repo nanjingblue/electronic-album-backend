@@ -35,6 +35,7 @@ type OSSSettingS struct {
 	ACCESS_KEY_ID     string
 	ACCESS_KEY_SECRET string
 	BUCKET            string
+	DOMAIN string
 }
 
 func (s *Setting) ReadSection(k string, v interface{}) error {

@@ -5,6 +5,7 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"strings"
 )
 
 const (
@@ -74,6 +75,9 @@ func (u *User) CheckPassword(password string) bool {
 func (u *User) AvatarURl() string {
 	client, _ := oss.New(global.OSSSetting.END_POINT, global.OSSSetting.ACCESS_KEY_ID, global.OSSSetting.ACCESS_KEY_SECRET)
 	bucket, _ := client.Bucket(global.OSSSetting.BUCKET)
-	signedGetURL, _ := bucket.SignURL(u.Avatar, oss.HTTPGet, 600)
+	signedGetURL, _ := bucket.SignURL(u.Avatar, oss.HTTPGet, 600000)
+	if global.OSSSetting.DOMAIN != "" {
+		return strings.Replace(signedGetURL, global.OSSSetting.BUCKET + "." + global.OSSSetting.END_POINT, global.OSSSetting.DOMAIN, -1)
+	}
 	return signedGetURL
 }

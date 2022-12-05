@@ -13,6 +13,15 @@ func init() {
 	UserPostDAO = &userPostDAO{}
 }
 
+func (up userPostDAO) GetPostsLikedByUser(uid uint) ([]model.Post, error) {
+	var posts []model.Post
+	err := global.DBEngine.Table("posts").Select("*").Joins("join user_posts on users.id = user_posts.user_id and liked = ?", true).Scan(&posts).Error
+	if err != nil {
+		return nil, err
+	}
+	return posts, nil
+}
+
 func (up userPostDAO) IsLikedByUser(userID, postID uint) bool {
 	var userPost model.UserPost
 	return global.DBEngine.Where("user_id = ? AND post_id = ? AND liked = ?", userID, postID, 1).First(&userPost).Error == nil

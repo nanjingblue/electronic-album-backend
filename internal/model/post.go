@@ -6,6 +6,7 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"gorm.io/gorm"
 	"strconv"
+	"strings"
 )
 
 /*
@@ -24,6 +25,9 @@ func (p *Post) GetURl() string {
 	client, _ := oss.New(global.OSSSetting.END_POINT, global.OSSSetting.ACCESS_KEY_ID, global.OSSSetting.ACCESS_KEY_SECRET)
 	bucket, _ := client.Bucket(global.OSSSetting.BUCKET)
 	signedGetURL, _ := bucket.SignURL(p.Image, oss.HTTPGet, 600)
+	if global.OSSSetting.DOMAIN != "" {
+		return strings.Replace(signedGetURL, global.OSSSetting.BUCKET + "." + global.OSSSetting.END_POINT, global.OSSSetting.DOMAIN, -1)
+	}
 	return signedGetURL
 }
 

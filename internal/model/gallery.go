@@ -4,6 +4,7 @@ import (
 	"electronic-gallery/global"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"gorm.io/gorm"
+	"strings"
 )
 
 type Gallery struct {
@@ -20,6 +21,9 @@ func (g *Gallery) CoverURl() string {
 	client, _ := oss.New(global.OSSSetting.END_POINT, global.OSSSetting.ACCESS_KEY_ID, global.OSSSetting.ACCESS_KEY_SECRET)
 	bucket, _ := client.Bucket(global.OSSSetting.BUCKET)
 	signedGetURL, _ := bucket.SignURL(g.Cover, oss.HTTPGet, 600)
+	if global.OSSSetting.DOMAIN != "" {
+		return strings.Replace(signedGetURL, global.OSSSetting.BUCKET + "." + global.OSSSetting.END_POINT, global.OSSSetting.DOMAIN, -1)
+	}
 	return signedGetURL
 }
 

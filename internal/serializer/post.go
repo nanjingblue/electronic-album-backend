@@ -47,7 +47,7 @@ func BuildPosts(it []model.Post) []Post {
 	return posts
 }
 
-func BuildPostsWithMe(it []model.Post, user model.User) []Post {
+func BuildPostsWithUser(it []model.Post, user model.User) []Post {
 	var posts []Post
 	for _, item := range it {
 		posts = append(posts, Post{

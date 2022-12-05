@@ -111,3 +111,31 @@ func PostCancelCollection(ctx *gin.Context) {
 		})
 	}
 }
+
+func PostListLikedByMe(ctx *gin.Context)  {
+	serv := service.PostListLikedByMeService{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&serv); err == nil {
+		res := serv.GetList(&svc)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "获取用户所有喜欢的 post 失败",
+			"error": err.Error(),
+		})
+	}
+}
+
+func PostListCollectedByMe(ctx *gin.Context)  {
+	serv := service.PostListCollectedByMeService{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&serv); err == nil {
+		res := serv.GetList(&svc)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "获取用户所有收藏的 post 失败",
+			"error": err.Error(),
+		})
+	}
+}

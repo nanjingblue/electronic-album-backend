@@ -46,6 +46,24 @@ func (p postDao) GetAllPostByUserID(uid uint) ([]model.Post, error) {
 	return posts, nil
 }
 
+func (p postDao) GetPostsLikedByUser(uid uint) ([]model.Post, error) {
+	var posts []model.Post
+	err := global.DBEngine.Distinct("id").Table("posts").Select("*").Joins("inner join user_posts on posts.id = user_posts.post_id and user_posts.user_id = ? and user_posts.liked = ?", uid, true).Find(&posts).Error
+	if err != nil {
+		return nil, err
+	}
+	return posts, nil
+}
+
+func (p postDao) GetPostsCollectedByUser(uid uint) ([]model.Post, error) {
+	var posts []model.Post
+	err := global.DBEngine.Distinct("id").Table("posts").Select("*").Joins("inner join user_posts on posts.id = user_posts.post_id and user_posts.user_id = ? and user_posts.collected = ?", uid, true).Find(&posts).Error
+	if err != nil {
+		return nil, err
+	}
+	return posts, nil
+}
+
 func (p postDao) GetPostByID(uid uint) (model.Post, error) {
 	var post model.Post
 	return post, global.DBEngine.First(&post, uid).Error
