@@ -36,3 +36,4 @@ OSS:
   ACCESS_KEY_ID:
   ACCESS_KEY_SECRET:
   BUCKET:
+  DOMAIN:  #如果绑定了域名可在此填写 未绑定请留空

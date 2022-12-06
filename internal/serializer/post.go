@@ -23,12 +23,13 @@ type Post struct {
 }
 
 func BuildPost(p *model.Post) Post {
+	u, _ := dao.User.GetUserByID(p.UserID)
 	return Post{
 		ID:             p.ID,
 		PostUserID:     p.User.ID,
-		PostUsername:   p.User.Username,
-		PostNickname:   p.User.Nickname,
-		PostUserAvatar: p.User.AvatarURl(),
+		PostUsername:   u.Username,
+		PostNickname:   u.Nickname,
+		PostUserAvatar: u.AvatarURl(),
 		Content:        p.Content,
 		Image:          p.GetURl(),
 		PostTime:       p.CreatedAt.Format("2006-01-02 15:04:05"),
@@ -47,15 +48,36 @@ func BuildPosts(it []model.Post) []Post {
 	return posts
 }
 
+func BuildPostWithUser(p model.Post, user model.User) Post {
+	u, _ := dao.User.GetUserByID(p.UserID)
+	return Post{
+		ID:             p.ID,
+		PostUserID:     p.User.ID,
+		PostUsername:   u.Username,
+		PostNickname:   u.Nickname,
+		PostUserAvatar: u.AvatarURl(),
+		Content:        p.Content,
+		Image:          p.GetURl(),
+		PostTime:       p.CreatedAt.Format("2006-01-02 15:04:05"),
+		View:           p.View(),
+		Like:           p.Like(),
+		Collection:     p.Collection(),
+		Comment:        p.Comment(),
+		LikedByMe:      dao.UserPostDAO.IsLikedByUser(user.ID, p.ID),
+		CollectedByMe:  dao.UserPostDAO.IsCollectedByUser(user.ID, p.ID),
+	}
+}
+
 func BuildPostsWithUser(it []model.Post, user model.User) []Post {
 	var posts []Post
 	for _, item := range it {
+		u, _ := dao.User.GetUserByID(item.UserID)
 		posts = append(posts, Post{
 			ID:             item.ID,
 			PostUserID:     item.User.ID,
-			PostUsername:   item.User.Username,
-			PostNickname:   item.User.Nickname,
-			PostUserAvatar: item.User.AvatarURl(),
+			PostUsername:   u.Username,
+			PostNickname:   u.Nickname,
+			PostUserAvatar: u.AvatarURl(),
 			Content:        item.Content,
 			Image:          item.GetURl(),
 			PostTime:       item.CreatedAt.Format("2006-01-02 15:04:05"),
