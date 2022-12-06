@@ -14,6 +14,15 @@ func init() {
 	Post = &postDao{}
 }
 
+func (p postDao) GetAllPost() ([]model.Post, error) {
+	var posts []model.Post
+	err := global.DBEngine.Find(&posts).Error
+	if err != nil {
+		return nil, err
+	}
+	return posts, nil
+}
+
 // GetPosts 获取好友的所有 post 并按照时间排序 最近的在前面
 func (p postDao) GetPosts(uid uint) ([]model.Post, error) {
 	friends, err := Friend.GetALLFollowingFriendsByUserID(uid)

@@ -23,6 +23,11 @@ func (a PictureDao) GetALLPicturesByGalleryID(galleryID uint) ([]model.Picture, 
 	return pictures, nil
 }
 
+func (p PictureDao) GetPictureByID(pID uint) (model.Picture, error) {
+	var picture model.Picture
+	return picture, global.DBEngine.First(&picture, pID).Error
+}
+
 // CreatePicture 新建图片
 func (a PictureDao) CreatePicture(picture *model.Picture) error {
 	return global.DBEngine.Create(&picture).Error
@@ -31,6 +36,11 @@ func (a PictureDao) CreatePicture(picture *model.Picture) error {
 // DeletePicture 删除图片
 func (a PictureDao) DeletePicture(picture *model.Picture) error {
 	return global.DBEngine.Delete(&picture).Error
+}
+
+// DeletePictureByID 删除图片
+func (a PictureDao) DeletePictureByID(id uint) error {
+	return global.DBEngine.Delete(&model.Picture{}, id).Error
 }
 
 // UpdatePicture 更新图片

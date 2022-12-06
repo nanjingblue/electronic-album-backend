@@ -35,3 +35,17 @@ func PictureCreate(ctx *gin.Context) {
 		})
 	}
 }
+
+func PictureDelete(ctx *gin.Context) {
+	serv := service.PictureDeleteService{}
+	svc := service.New(ctx)
+	if err := ctx.ShouldBind(&serv); err == nil {
+		res := serv.Delete(&svc)
+		ctx.JSON(200, res)
+	} else {
+		ctx.JSON(400, gin.H{
+			"msg":   "删除图片失败",
+			"error": err,
+		})
+	}
+}

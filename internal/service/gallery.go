@@ -115,8 +115,35 @@ type GalleryDeleteService struct {
 	GalleryID uint `form:"gallery_id" json:"gallery_id" binding:"required"`
 }
 
+// Delete 删除相册 同时需要将其中所有图片加入到回收站
 func (g *GalleryDeleteService) Delete(svc *Service) serializer.Response {
-	err := dao.Gallery.DeleteGalleryByGalleryID(g.GalleryID)
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	pictures, err := dao.Picture.GetALLPicturesByGalleryID(g.GalleryID)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "删除相册失败：不存在该相册",
+			Error: err.Error(),
+		}
+	}
+
+	recycleGallery, _ := dao.Gallery.GetRecycleByUserID(user.ID)
+
+	for _, p := range pictures {
+		p.GalleryID = recycleGallery.ID
+		err = dao.Picture.UpdatePicture(&p)
+		if err != nil {
+			return serializer.Response{
+				Code:  500,
+				Msg:   "删除相册: 加入回收站失败",
+				Error: err.Error(),
+			}
+		}
+	}
+
+	err = dao.Gallery.DeleteGalleryByGalleryID(g.GalleryID)
 	if err != nil {
 		return serializer.Response{
 			Code:  500,
@@ -124,6 +151,7 @@ func (g *GalleryDeleteService) Delete(svc *Service) serializer.Response {
 			Error: err.Error(),
 		}
 	}
+
 	return serializer.Response{
 		Code: 200,
 		Msg:  "删除相册成功",

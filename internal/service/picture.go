@@ -88,3 +88,40 @@ func (p *PictureCreateService) CreatePicture(svc *Service) serializer.Response {
 		Msg:  "添加图片成功",
 	}
 }
+
+type PictureDeleteService struct {
+	PictureID uint `form:"picture_id" json:"picture_id" binding:"required"`
+}
+
+// Delete 删除照片，直接对照片的删除就是将其加入到回收站中
+func (p *PictureDeleteService) Delete(svc *Service) serializer.Response {
+	u, _ := svc.ctx.Get("user")
+	user := u.(model.User)
+
+	pictureID := p.PictureID
+
+	recycleGallery, err := dao.Gallery.GetRecycleByUserID(user.ID)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "不存在回收站",
+			Error: err.Error(),
+		}
+	}
+	picture, err := dao.Picture.GetPictureByID(pictureID)
+	picture.GalleryID = recycleGallery.ID
+	err = dao.Picture.UpdatePicture(&picture)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Msg:   "加入回收站失败",
+			Error: err.Error(),
+		}
+	}
+
+	return serializer.Response{
+		Code: 200,
+		Data: serializer.BuildPicture(picture),
+		Msg:  "加入回收站成功",
+	}
+}

@@ -69,6 +69,34 @@ func (svc *Service) Register(param *UserRegisterRequest) serializer.Response {
 		}
 	}
 
+	// 在注册完成时应该为其自动创建两个默认相册 回收站 和 收藏夹
+	recycle := model.Gallery{
+		UserID:      user.ID,
+		GalleryName: "回收站",
+		Cover:       "upload/avatar5d36cea1-4fef-4f3d-8643-6bdb9859884d.jpg",
+		Description: "这里是回收站，删除的图片会自动添加进来",
+		Status:      model.Active,
+	}
+
+	collection := model.Gallery{
+		UserID:      user.ID,
+		GalleryName: "收藏夹",
+		Cover:       "upload/avatar5d36cea1-4fef-4f3d-8643-6bdb9859884d.jpg",
+		Description: "这里是收藏夹，收藏的图片会自动添加进来",
+		Status:      model.Active,
+	}
+
+	err = dao.Gallery.CreateGallery(recycle)
+	err = dao.Gallery.CreateGallery(collection)
+	if err != nil {
+		return serializer.Response{
+			Code:  500,
+			Data:  nil,
+			Msg:   "登录失败：创建默认相册失败",
+			Error: err.Error(),
+		}
+	}
+
 	return serializer.Response{
 		Code:  200,
 		Msg:   "注册成功",
@@ -158,5 +186,9 @@ func (uup *UserUpdateProfileService) Update(svc *Service) serializer.Response {
 			Error: err.Error(),
 		}
 	}
-	return serializer.Response{}
+	return serializer.Response{
+		Code: 200,
+		Data: serializer.BuildUser(user),
+		Msg:  "更新用户信息成功",
+	}
 }

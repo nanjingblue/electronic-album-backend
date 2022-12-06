@@ -4,6 +4,7 @@ import (
 	"electronic-gallery/internal/dao"
 	"electronic-gallery/internal/model"
 	"electronic-gallery/internal/serializer"
+	"strings"
 )
 
 type PostService struct{}
@@ -16,7 +17,8 @@ func (p PostGetListService) GetList(svc *Service) serializer.Response {
 	u, _ := svc.ctx.Get("user")
 	user := u.(model.User)
 
-	posts, err := dao.Post.GetPosts(user.ID)
+	//posts, err := dao.Post.GetPosts(user.ID)
+	posts, err := dao.Post.GetAllPost()
 	if err != nil {
 		return serializer.Response{
 			Code:  500,
@@ -208,8 +210,18 @@ func (p *PostCollectionService) Collection(svc *Service) serializer.Response {
 		}
 	}
 
-	post.AddCollection()
+	post.AddCollection() // 更新 redis
 	err = dao.UserPostDAO.Collect(user.ID, post.ID)
+
+	// 将收藏的贴子的图片加入当用户收藏夹相册中
+	collectionGallery, _ := dao.Gallery.GetCollectionByUserID(user.ID)
+	picture := model.Picture{
+		PictureName: post.Image[strings.LastIndex(post.Image, "/")+1:],
+		Path:        post.Image,
+		UserID:      user.ID,
+		GalleryID:   collectionGallery.ID,
+	}
+	err = dao.Picture.CreatePicture(&picture)
 	if err != nil {
 		return serializer.Response{
 			Code:  500,

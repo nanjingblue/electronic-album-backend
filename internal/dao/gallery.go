@@ -9,6 +9,9 @@ type GalleryDAO struct{}
 
 var Gallery *GalleryDAO
 
+/*
+init 相册的dao初始化
+*/
 func init() {
 	Gallery = &GalleryDAO{}
 }
@@ -39,16 +42,26 @@ func (a GalleryDAO) DeleteGalleryByGalleryID(albumID uint) error {
 }
 
 // UpdateGallery 更新相册
-func (a *GalleryDAO) UpdateGallery(album *model.Gallery) error {
+func (a GalleryDAO) UpdateGallery(album *model.Gallery) error {
 	return global.DBEngine.Save(&album).Error
 }
 
 // GetGalleryByGalleryID 获取相册
-func (a *GalleryDAO) GetGalleryByGalleryID(galleryID uint) (model.Gallery, error) {
+func (a GalleryDAO) GetGalleryByGalleryID(galleryID uint) (model.Gallery, error) {
 	var album model.Gallery
 	err := global.DBEngine.First(&album, galleryID).Error
 	if err != nil {
 		return album, err
 	}
 	return album, nil
+}
+
+func (a GalleryDAO) GetRecycleByUserID(uid uint) (model.Gallery, error) {
+	var recycle model.Gallery
+	return recycle, global.DBEngine.Where("user_id = ? AND gallery_name = ?", uid, "回收站").First(&recycle).Error
+}
+
+func (a GalleryDAO) GetCollectionByUserID(uid uint) (model.Gallery, error) {
+	var collection model.Gallery
+	return collection, global.DBEngine.Where("user_id = ? AND gallery_name = ?", uid, "收藏夹").First(&collection).Error
 }
