@@ -6,9 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-/*
-GalleryCreateService 创建相册
-*/
+// @Summary 相册创建
+// @Produce json
+// @Param gallery_name body string true "相册名称"
+// @Param description body string false "描述"
+// @Param cover body string false "封面"
+// @Success 200 "成功"
+// @Failure 400 "请求错误"
+// @Failure 500 "内部错误"
 func GalleryCreateService(ctx *gin.Context) {
 	param := service.GalleryCreateService{}
 	svc := service.New(ctx)
@@ -23,9 +28,12 @@ func GalleryCreateService(ctx *gin.Context) {
 	}
 }
 
-/*
-GalleryGetListService 获取当前用户的所有相册
-*/
+// @Summary 获取相册列表
+// @Produce json
+// @Param gallery_id body string true "相册id"
+// @Success 200 "成功"
+// @Failure 400 "请求错误"
+// @Failure 500 "内部错误"
 func GalleryGetListService(ctx *gin.Context) {
 	param := service.GalleryListGetService{}
 	svc := service.New(ctx)
@@ -40,9 +48,15 @@ func GalleryGetListService(ctx *gin.Context) {
 	}
 }
 
-/*
-GalleryUpdateService 更新相册服务
-*/
+// @Summary 相册更新
+// @Produce json
+// @Param gallery_id body string true "相册id"
+// @Param gallery_name body string false "相册名称"
+// @Param description body string false "描述"
+// @Param cover body string false "封面"
+// @Success 200 "成功"
+// @Failure 400 "请求错误"
+// @Failure 500 "内部错误"
 func GalleryUpdateService(ctx *gin.Context) {
 	serv := service.GalleryUpdateService{}
 	svc := service.New(ctx)
@@ -57,9 +71,12 @@ func GalleryUpdateService(ctx *gin.Context) {
 	}
 }
 
-/*
-GalleryDeleteService 删除相册服务
-*/
+// @Summary 相册删除
+// @Produce json
+// @Param gallery_id body string true "相册id"
+// @Success 200 "成功"
+// @Failure 400 "请求错误"
+// @Failure 500 "内部错误"
 func GalleryDeleteService(ctx *gin.Context) {
 	serv := service.GalleryDeleteService{
 		GalleryID: convert.StrTo(ctx.Param("gallery_id")).MustUInt(),

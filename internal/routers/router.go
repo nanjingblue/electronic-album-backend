@@ -4,6 +4,8 @@ import (
 	"electronic-gallery/internal/middleware"
 	v1 "electronic-gallery/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewRouter() *gin.Engine {
@@ -11,6 +13,8 @@ func NewRouter() *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	apiv1 := r.Group("/api/v1")
 	{
@@ -48,6 +52,8 @@ func NewRouter() *gin.Engine {
 
 			auth.GET("/comments", v1.CommentList)   // 根据post_id获取其comment list
 			auth.POST("/comment", v1.CommentCreate) // 添加用户
+
+			auth.GET("/friends/add/:username")
 		}
 	}
 	return r

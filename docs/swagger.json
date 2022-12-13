@@ -1,0 +1,10 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "电子相册系统",
+        "termsOfService": "https://github.com/nanjingblue/electronic-gallery-backend",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "paths": {}
+}

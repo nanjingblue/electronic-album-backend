@@ -25,6 +25,12 @@ func init() {
 	}
 }
 
+// @title 电子相册系统
+// @version 1.0.0
+// @description
+// @termsOfService https://github.com/nanjingblue/electronic-gallery-backend
+// @host 127.0.0.1:8080
+// @BasePath /api/v1
 func main() {
 	//fmt.Println("hello world")
 	gin.SetMode(global.ServerSetting.RunMode)
