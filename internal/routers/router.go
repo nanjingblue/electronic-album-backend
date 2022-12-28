@@ -51,9 +51,10 @@ func NewRouter() *gin.Engine {
 			auth.GET("/post/cancel_collect", v1.PostCancelCollection) // 取消收藏post
 
 			auth.GET("/comments", v1.CommentList)   // 根据post_id获取其comment list
-			auth.POST("/comment", v1.CommentCreate) // 添加用户
+			auth.POST("/comment", v1.CommentCreate) // 添加评论
 
-			auth.GET("/friends/add/:username")
+			auth.GET("/friends/follow", v1.FriendFollow)
+			auth.GET("/friends/ban", v1.FriendBan)
 		}
 	}
 	return r
